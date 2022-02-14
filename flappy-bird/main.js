@@ -1,5 +1,3 @@
-import { bird } from './bird.js';
-
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
 
@@ -15,13 +13,14 @@ let gameSpeed = 2;
 
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  bird.draw(ctx);
-  bird.update(canvas, spacePressed);
-
+  bird.update();
+  bird.draw();
+  handleParticles()
+  
   requestAnimationFrame(animate);
-}
 
-animate();
+  angle += 0.12;
+}
 
 window.addEventListener('keydown', e => {
   if (e.code === 'Space') {
@@ -34,3 +33,5 @@ window.addEventListener('keyup', e => {
     spacePressed = false
   }
 })
+
+animate();

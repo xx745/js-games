@@ -8,9 +8,10 @@ class FlappyBird {
     this.weight = 1; // force pulling down the bird
   }
 
-  update(canvas, spacePressed) {
-    if (this.y > canvas.height - this.height) {
-      this.y = canvas.height - this.height;
+  update() {
+    let curve = Math.sin(angle) * 20;
+    if (this.y > canvas.height - (this.height * 3) + curve) {
+      this.y = canvas.height - (this.height * 3) + curve;       
       this.velocityY = 0;
     } else {
       this.velocityY += this.weight;
@@ -23,12 +24,12 @@ class FlappyBird {
       this.velocityY = 0;
     }
 
-    if (spacePressed) {
+    if (spacePressed && this.y > (this.height * 3)) {
       this.flapWings();
     }
   }
 
-  draw(ctx) {
+  draw() {
     ctx.fillStyle = 'red';
     ctx.fillRect(this.x, this.y, this.width, this.height);
   }
@@ -38,4 +39,4 @@ class FlappyBird {
   }
 }
 
-export const bird = new FlappyBird();
+const bird = new FlappyBird();
