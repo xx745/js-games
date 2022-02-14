@@ -16,7 +16,15 @@ function animate() {
   handleObstacles();
   bird.update();
   bird.draw();
+
+  ctx.font = "25px Arial";
+  ctx.fillStyle = 'blue';
+  ctx.fillText(`Score: ${score}`, 480, 30);
+
   handleParticles();
+  if (handleCollisions()) {
+    return;
+  };
   
   requestAnimationFrame(animate);
 
@@ -24,6 +32,8 @@ function animate() {
   hue++;
   frame++;
 }
+
+animate();
 
 window.addEventListener('keydown', e => {
   if (e.code === 'Space') {
@@ -37,4 +47,22 @@ window.addEventListener('keyup', e => {
   }
 })
 
-animate();
+const bang = new Image();
+bang.src = 'bang.png';
+
+function handleCollisions() {
+  for (let i = 0; i < obstaclesArray.length; i++) {
+    if (bird.x < obstaclesArray[i].x + obstaclesArray[i].width &&
+      bird.x + bird.width > obstaclesArray[i].x &&
+      ((bird.y < 0 + obstaclesArray[i].top && bird.y + bird.height > 0) ||
+      (bird.y > canvas.height - obstaclesArray[i].bottom &&
+        bird.y + bird.height < canvas.height))) {
+          ctx.drawImage(bang, bird.x, bird.y, 50, 50);
+          ctx.font = "25px Arial";
+          ctx.fillStyle = 'black';
+          ctx.fillText(`Game Over, your score is: ${score}`, 160, canvas.height / 2 - 10);
+
+          return true;
+        }
+  }
+}
